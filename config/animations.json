@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "idle": {
+    "file": "PL_Idlestance.glb",
+    "loop": true
+  },
+  "animations": {
+    "HOLA": {
+      "file": "PL_Hola_001.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "hola"
+      ],
+      "loop": false
+    },
+    "ADIOS": {
+      "file": "PL_Adios_001.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "adios"
+      ],
+      "loop": false
+    },
+    "BUENOS DIAS": {
+      "file": "PL_Buenos_Días.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "buenos dias"
+      ],
+      "loop": false
+    },
+    "BUENAS TARDES": {
+      "file": "PL_Buenas_Tardes.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "buenas tardes"
+      ],
+      "loop": false
+    },
+    "BUENAS NOCHES": {
+      "file": "PL_Buenas_Noches.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "buenas noches"
+      ],
+      "loop": false
+    },
+    "DOCTOR": {
+      "file": "Player_doctor.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "doctor"
+      ],
+      "loop": false
+    },
+    "VOMITO": {
+      "file": "Player_vomito.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "vomito"
+      ],
+      "loop": false
+    },
+    "TEMPERATURA": {
+      "file": "Player_temperatura.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "temperatura"
+      ],
+      "loop": false
+    },
+    "DOLOR": {
+      "file": "Player_dolor.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "dolor"
+      ],
+      "loop": false
+    },
+    "GRIPE": {
+      "file": "Player_gripe.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "gripe"
+      ],
+      "loop": false
+    },
+    "PASTILLAS": {
+      "file": "Player_pastillas.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "pastillas"
+      ],
+      "loop": false
+    },
+    "ORINA": {
+      "file": "Player_orinar.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "orina"
+      ],
+      "loop": false
+    },
+    "PENA": {
+      "file": "Player_idle_variation_001.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "pena"
+      ],
+      "loop": false
+    },
+    "DIARREA": {
+      "file": "Player_diarrea.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "diarrea"
+      ],
+      "loop": false
+    },
+    "COMEZON": {
+      "file": "player_comezon.glb",
+      "variant": "TecSign original",
+      "aliases": [
+        "comezon"
+      ],
+      "loop": false
+    }
+  }
+}

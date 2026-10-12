@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es" class="pagina-deteccion">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TecSign | Detección de Manos</title>
+  <link rel="stylesheet" href="./css/traductor.css" /> <!-- Sube un nivel desde Eleccion -->
+  <link rel="shortcut icon" href="./logo_tecsign.png" />
+  <link rel="stylesheet" href="./css/ai-status.css" />
+  <style>
+    /* Avatar 3D Babylon.js: hace que el canvas llene el contenedor .avatar-wrap.
+       Si ya tienes estilos para .avatar-wrap en traductor.css, puedes mover esto ahí. */
+    #avatar-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      outline: none;
+      touch-action: none;
+      background: transparent;
+    }
+
+    /* Contenedor del avatar: necesita position relative para el botón y
+       la transición para cuando se agranda. */
+    .avatar-wrap,
+    #avatar-wrap {
+      position: relative;
+      transition: all .25s ease;
+      background-image: url('./image/classroom-bg.svg') !important;
+      background-color: transparent !important;
+      background-size: cover !important;
+      background-position: center !important;
+      border-radius: 14px;
+      overflow: hidden;
+      /* Rectángulo vertical: aprovecha el espacio de arriba/abajo del panel
+         en vez de quedar cuadrado. Ajusta estos valores a tu gusto. */
+      height: min(62vh, 560px) !important;
+      min-height: 420px !important;
+    }
+
+    #avatar-expand-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, .55);
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 2;
+    }
+    #avatar-expand-btn:hover { background: rgba(0, 0, 0, .8); }
+
+    /* Vista ampliada: el avatar se agranda en el centro de la pantalla */
+    .avatar-wrap.avatar-expanded,
+    #avatar-wrap.avatar-expanded {
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      right: auto !important;
+      bottom: auto !important;
+      transform: translate(-50%, -50%) !important;
+      width: min(55vw, 480px) !important;
+      height: min(92vh, 800px) !important;
+      max-width: none !important;
+      max-height: none !important;
+      margin: 0 !important;
+      z-index: 9999 !important;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .5);
+    }
+
+    /* Fondo oscuro detrás del avatar ampliado */
+    .avatar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .6);
+      z-index: 9998;
+    }
+    .avatar-backdrop.active { display: block; }
+  </style>
+</head>
+<body>
+  <div class="contenido-principal">
+
+    <header>
+      <div class="menu-toggle" id="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    
+      <nav>
+        <a href="./index.html"><img src="./logobannerhtml22.png" alt="Mi logo" class="logo"></a>
+        <div class="nav" id="nav">
+          <ul>      
+            <li><a href="./index.html">Inicio</a></li>
+            <li><a href="./index.html#Acerca">Acerca</a></li>
+            <li><a href="./comofunciona.html">Cómo Funciona</a></li>
+            <li><a href="./index.html#contacto">Contacto</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+<section class="explicacion-software">
+  <h2>Sobre esta versión del Traductor LSM</h2>
+<p>
+  TecSign AI reconoce un vocabulario limitado de <strong>señas aisladas de LSM</strong> mediante una red neuronal temporal. El modelo analiza ambas manos y la pose corporal. Conserva las glosas originales e interpreta algunas combinaciones en español mediante reglas locales. <a href="demo-glosas.html">Ver ejemplos de interpretación</a>.
+</p>
+<p>
+  En la versión de producción puedes usar cámara o video local. Esta copia de revisión no incluye los modelos entrenados ni dependencias de inferencia, por lo que el detector se encuentra desactivado. El código de la arquitectura puede consultarse en js/.
+</p>
+
+
+  <h3>¿Cómo usar esta versión?</h3>
+  <ul>
+    <li>Asegurate de no mover mucho la camara.</li>
+    <li>Asegúrate de tener la cámara activada.</li>
+    <li>En Señas, incluye cabeza, hombros, brazos y ambas manos. Haz una seña completa y vuelve a reposo.</li>
+    <li>En ABC, coloca tu mano frente a la cámara e interpreta una letra.</li>
+    <li>Evita hacer gestos aleatorios para no generar predicciones incorrectas.</li>
+    <li>Colocate en un lugar claro</li>
+  </ul>
+</section>
+
+
+
+<main>
+  <aside role="status" style="max-width:900px;margin:18px auto;padding:16px 20px;background:#fff6e8;border:1px solid #d7a34a;border-radius:12px;color:#553a10;line-height:1.5">
+    <strong>Copia de revisión de TecSign:</strong> la cámara, los modelos de reconocimiento y el avatar 3D están desactivados.
+    Puedes revisar la arquitectura en <code>js/</code>, probar <a href="demo-glosas.html">ejemplos de glosas</a>
+    o visitar la <a href="https://gestostecsign.netlify.app/">demostración pública</a>.
+  </aside>
+  <div id="contenedor-video">
+    <video id="video" autoplay playsinline></video>
+    <canvas id="output"></canvas>
+  </div>
+
+
+  <!-- SELECTOR DE MODELO -->
+<section class="selector-modelo">
+  <h2 class="visually-hidden">Modelo de detección</h2>
+
+  <div class="botones-modelo">
+    <button id="btnModeloABC" class="btn-modelo" type="button" disabled>
+      ABC
+    </button>
+    <button id="btnModeloSenas" class="btn-modelo activo" type="button" disabled>
+      Señas
+    </button>
+    <button id="ai-load-video" class="ai-icon" type="button" aria-label="Cargar video local de prueba" title="Probar video local" disabled>🎞</button>
+    <input id="ai-video-file" type="file" accept="video/*" hidden disabled />
+    <button id="ai-start" class="ai-icon" type="button" aria-label="Activar cámara" title="Activar cámara" disabled>📷</button>
+    <button id="ai-stop" class="ai-icon" type="button" aria-label="Detener cámara o video" title="Detener" hidden disabled>⏹</button>
+  </div>
+</section>
+  <p id="ai-status" class="ai-status-line" role="status" aria-live="polite">Reconocimiento desactivado en la copia de revisión.</p>
+  <details id="ai-monitor" class="ai-status-panel">
+    <summary id="ai-summary">IA: no incluida en esta copia</summary>
+    <p id="ai-engine"></p>
+    <p>Predicción provisional (no es traducción):</p>
+    <p id="ai-top">Sin predicción provisional</p>
+    <p id="ai-debug-data"></p>
+    <p id="ai-vocabulary"></p>
+  </details>
+  <p id="glosas-confirmadas" class="ai-glosses" hidden>Glosas: <span id="texto-glosas"></span></p>
+  <div id="resultado-traduccion">
+    Traducción: <span id="texto-traducido">...</span>
+
+    <!-- Botones de acción del resultado -->
+    <button id="ai-speak" type="button" aria-label="Leer traducción confirmada" title="Leer traducción confirmada" disabled>🔊</button>
+    <button id="btn-undo"   type="button" aria-label="Borrar última glosa o letra" title="Borrar último" disabled>⌫</button>
+    <button id="btn-limpiar" type="button" aria-label="Limpiar traducción"     title="Limpiar" disabled>✕</button>
+  </div>
+
+
+
+<!-- CHAT DE SEÑAS LSM -->
+<section class="seccion-chat-lsm">
+  <div class="chat-lsm-titulo">
+    <h2>🤟 Chat de Señas LSM</h2>
+    <p>Escribe una palabra y el avatar te mostrará la seña ✨</p>
+  </div>
+
+  <div class="app">
+    <div class="left-panel">
+      <div class="panel-tag">Avatar LSM</div>
+
+      <div class="avatar-backdrop" id="avatar-backdrop"></div>
+      <div class="avatar-wrap" id="avatar-wrap">
+        <canvas id="avatar-canvas"></canvas>
+        <button type="button" id="avatar-expand-btn" title="Ampliar avatar" disabled>⛶</button>
+      </div>
+
+      <div class="sign-area" id="sign-area">
+        <div class="sign-status">Esperando tu mensaje...</div>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="chat-header">
+        <span style="font-size:20px;">💬</span>
+        <div>
+          <div class="chat-header-title">Chat de Señas</div>
+          <div class="chat-header-sub">Lengua de Señas Mexicana</div>
+        </div>
+      </div>
+
+      <div class="messages" id="messages">
+        <div class="empty-state">
+          <div class="big">🤟</div>
+          <div style="font-weight:700;color:#5b21b6;">¡Hola! Soy tu intérprete LSM</div>
+          <div>Escribe cualquier palabra y te mostraré las señas letra por letra</div>
+        </div>
+      </div>
+
+      <div class="chips">
+        <button class="chip" onclick="sendWord('Hola')">Hola</button>
+        <button class="chip" onclick="sendWord('Adios')">Adios</button>
+        <button class="chip" onclick="sendWord('Gripe')">Gripe</button>
+        <button class="chip" onclick="sendWord('Doctor')">Doctor</button>
+        <button class="chip" onclick="sendWord('Buenos dias')">Buenos días</button>
+        <button class="chip" onclick="sendWord('Buenas tardes')">Buenas noches</button>
+      </div>
+
+      <div class="input-row">
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="Escribe una palabra o frase..."
+          maxlength="40"
+          onkeydown="if(event.key==='Enter')sendFromInput()"
+        />
+
+        <button class="send-btn" onclick="sendFromInput()">
+          <svg viewBox="0 0 24 24">
+            <path d="M2 21L23 12 2 3v7l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+</main>
+
+
+
+</div>
+  <footer>
+    <p>Todos los derechos reservados © TecSign.</p>
+
+
+<!-- From Uiverse.io by escannord -->
+      <div class="redes-sociales">
+      <ul class="wrapper">
+        <a href="https://www.facebook.com/profile.php?id=61576667424867" target="_blank">
+          <li class="icon facebook">
+            <span class="tooltip">Facebook</span>
+            <svg viewBox="0 0 320 512" height="1.2em" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path>
+            </svg>
+          </li>
+        </a>
+
+        <a href="https://www.youtube.com/@TecSing-g2r" target="_blank">
+          <li class="icon youtube">
+            <span class="tooltip">YouTube</span>
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.8em" viewBox="0 0 576 512" fill="currentColor">
+              <path d="M549.7 124.1c-6.3-23.8-24.9-42.4-48.6-48.7C456.5 64 288 64 288 64s-168.5 0-213.1 11.4c-23.7 6.3-42.3 24.9-48.6 48.7C16 168.6 16 256 16 256s0 87.4 10.3 131.9c6.3 23.8 24.9 42.4 48.6 48.7C119.5 448 288 448 288 448s168.5 0 213.1-11.4c23.7-6.3 42.3-24.9 48.6-48.7C560 343.4 560 256 560 256s0-87.4-10.3-131.9zM232 334V178l142 78-142 78z"/>
+            </svg>
+          </li>
+        </a>
+
+        <a href="https://whatsapp.com/channel/0029Vb5Jsr3Id7nKVRnG9m41" target="_blank">
+          <li class="icon whatsapp">
+            <span class="tooltip">WhatsApp</span>
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.8em" viewBox="0 0 448 512" fill="currentColor">
+              <path d="M380.9 97.1C339-6.3 205.1-32 110.4 37.7 37.3 92.8 1.6 186.5 24.2 273.5L1.2 375.8c-4.6 20.6 14.2 38.8 34.4 34.4l102.3-23c85.9 43.4 188.6 20.2 243.7-53 69.7-94.7 44-228.6-34.7-289.1zM222.5 366c-35.3-1.4-70.1-12.2-99.3-30.9l-7.1-4.5-60.8 13.7 13-59.2-4.6-7.1c-18.3-28.5-28.5-61.2-28.5-94.7C35.2 121.6 124.1 33.1 229.2 68.5c59.2 19.5 102.4 75.2 104.4 137.2 1.8 59.4-30.5 114.2-83 137.4-10.9 4.9-22.3 8.1-34.2 9.5l-.1.1zm85.6-129.2c-4.6-2.3-27.3-13.5-31.6-15-4.2-1.5-7.3-2.3-10.4 2.3s-11.9 15-14.6 18.1c-2.7 3.1-5.4 3.5-10 1.2-27.2-13.6-44.9-24.4-63.2-55.2-4.8-8.2 4.8-7.6 13.8-25.2 1.5-3.1.8-5.8-.4-8.1s-10.4-25.2-14.3-34.6c-3.8-9.4-7.7-8.1-10.4-8.3-2.7-.1-5.9-.2-9.1-.2s-8.3 1.2-12.7 5.8c-4.4 4.6-16.8 16.4-16.8 40.1s17.2 46.6 19.6 49.8c2.4 3.1 33.8 51.8 82.2 72.6 11.5 5 20.5 7.9 27.5 10.1 11.6 3.7 22.1 3.2 30.5 1.9 9.3-1.4 27.9-11.4 31.8-22.5 3.9-11.1 3.9-20.6 2.7-22.5-1.2-1.9-4.2-3.1-8.8-5.4z"/>
+            </svg>
+          </li>
+        </a>
+      </ul>
+      </div>
+
+
+  </footer>
+
+  <script src="./boton.js"></script>
+  <!-- Reconocimiento/3D intencionalmente desactivados: ver README.md. -->
+<script src="./js/chat-lsm.js"></script>
+    <!-- Chatbase integrado desactivado en copia de revisión -->
+
+</body>
+</html>

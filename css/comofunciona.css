@@ -1,0 +1,303 @@
+/************************************************************
+ TecSign — comofunciona.css (autónomo)
+ Identidad: teal + azul, alto contraste, accesible y moderno
+*************************************************************/
+
+/* ========================= [1] RESET + TOKENS ========================= */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+img,svg,video{max-width:100%;height:auto;display:block}
+button,input,textarea,select{font:inherit;color:inherit}
+
+:root{
+  /* Colores base */
+  --bg:#f7fafc;
+  --surf:#ffffff;
+  --ink:#0c1a2a;
+  --muted:#516782;
+
+  /* Marca */
+  --brand:#1aa7a1;   /* teal salud */
+  --brand2:#4f8df5;  /* azul clínico */
+
+  /* Estados */
+  --ok:#2bb673; --warn:#f5a524; --danger:#e85c5c;
+
+  /* Decorativos */
+  --border:#e2e8f0;
+  --radius-sm:10px; --radius:16px; --radius-lg:22px;
+  --shadow:0 10px 30px rgba(15,32,52,.08);
+  --focus:0 0 0 3px rgba(31,150,143,.35);
+
+  /* Tipografía y escala */
+  --font:16px/1.65 'Roboto',system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+  --h1:clamp(30px,4.8vw,44px);
+  --h2:clamp(22px,3.4vw,32px);
+  --h3:clamp(18px,2.4vw,22px);
+
+  /* Animación */
+  --ease:cubic-bezier(.2,.8,.2,1);
+
+  /* Header gradiente */
+  --header1:#1aa7a1;
+  --header2:#4f8df5;
+
+  /* Móvil */
+  --header-h:64px; /* alto lógico para compensar sticky */
+}
+
+/* ======================= [2] BASE DE PÁGINA ======================= */
+body{
+  color:var(--ink);
+  font:var(--font);
+  background:
+    radial-gradient(900px 560px at 8% 8%, rgba(79,141,245,.10), transparent 60%),
+    radial-gradient(900px 560px at 92% 18%, rgba(26,167,161,.10), transparent 60%),
+    linear-gradient(180deg,#f9fbfd,var(--bg));
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+}
+.container{width:min(1120px,92%);margin-inline:auto}
+.section{margin:42px 0}
+.center{text-align:center}
+.lead{color:var(--muted)}
+h1{font-size:var(--h1);line-height:1.08;letter-spacing:-.02em}
+h2{font-size:var(--h2)}
+h3{font-size:var(--h3)}
+@media (max-width:640px){ .section{margin:28px 0} }
+
+/* =================== [3] HEADER + NAV (coherente) =================== */
+header{
+  position:sticky; top:0; z-index:1000;
+  background:linear-gradient(90deg, #16b4a3 0%, #1a73e8 100%);
+  border-bottom:1px solid rgba(255,255,255,.25);
+  box-shadow:0 8px 22px rgba(0,0,0,.08);
+}
+nav{
+  max-width:1100px; margin:0 auto; padding:14px 18px;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  position:relative;
+}
+.logo{
+  width:190px; height:auto; display:block;
+  filter:drop-shadow(0 4px 8px rgba(0,0,0,.15));
+}
+.nav ul{list-style:none; display:flex; gap:24px; align-items:center}
+.nav a{
+  color:#e9f3ff; text-decoration:none; font-weight:600; letter-spacing:.2px;
+  padding:8px 12px; border-radius:12px; transition:all .25s ease;
+}
+.nav a:hover{background:rgba(255,255,255,.14); color:#fff}
+.nav a.active{
+  background:rgba(255,255,255,.22); color:#fff;
+  box-shadow:0 6px 16px rgba(0,0,0,.12) inset;
+}
+
+/* --- Hamburguesa (oculta en desktop, alineada y con tap area en móvil) --- */
+.menu-toggle{display:none; flex-direction:column; cursor:pointer}
+.menu-toggle span{width:26px;height:3px;background:#fff;border-radius:4px;margin:4px 0;transition:.25s}
+
+@media (max-width:900px){
+  header{min-height:var(--header-h)}
+  .logo{width:150px}
+  nav{padding:10px 14px}
+  .menu-toggle{
+    display: flex;
+    position: absolute;
+    right: 10px;        /* antes: left: 10px */
+    left: auto;         /* anula el left previo */
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 10px;      /* zona de toque cómoda */
+    z-index: 2;
+  }
+  .nav{display:none; position:absolute; top:var(--header-h); left:0; right:0}
+  .nav.open{
+    display:block; background:#ffffff; border-top:1px solid #e8eef6;
+    box-shadow:0 12px 28px rgba(0,0,0,.10); animation:menuDrop .25s ease;
+  }
+  .nav ul{flex-direction:column; padding:16px}
+  .nav a{color:#1a73e8; width:100%; text-align:center}
+  .menu-toggle.active span:nth-child(1){transform:rotate(45deg) translateY(8px)}
+  .menu-toggle.active span:nth-child(2){opacity:0}
+  .menu-toggle.active span:nth-child(3){transform:rotate(-45deg) translateY(-8px)}
+}
+@keyframes menuDrop{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+/* --- Compensación de sticky header para anclas/primer bloque --- */
+body[data-page="comofunciona"]{scroll-padding-top:var(--header-h)}
+@media (max-width:900px){ .hero-cf{padding-top:calc(var(--header-h) + 8px)} }
+
+/* =================== [4] BOTONES UNIVERSALES =================== */
+.btn,button{
+  display:inline-block; cursor:pointer; border:0; text-decoration:none;
+  padding:12px 18px; border-radius:14px; font-weight:800; letter-spacing:.2px;
+  background:linear-gradient(92deg,var(--brand),var(--ok));
+  color:#06201f;
+  box-shadow:0 10px 22px rgba(26,167,161,.20);
+  transition:transform .12s var(--ease), filter .18s var(--ease), box-shadow .18s var(--ease);
+}
+.btn:hover,button:hover{transform:translateY(-2px); filter:saturate(1.05)}
+.btn:active,button:active{transform:translateY(0)}
+.btn.ghost{background:transparent; color:var(--ink); border:1px solid var(--border); box-shadow:none}
+a:focus-visible,.btn:focus-visible,button:focus-visible{box-shadow:var(--focus); outline:0}
+
+/* =================== [5] HERO / PORTADA (Cómo Funciona) =================== */
+.hero-cf{padding:clamp(28px,5vw,56px) 0 10px}
+.hero-cf .wrap{
+  display:grid; gap:24px; align-items:center;
+  grid-template-columns:1.15fr .85fr;
+}
+@media (max-width:980px){ .hero-cf .wrap{grid-template-columns:1fr} }
+
+.hero-title{
+  font-size:var(--h1); line-height:1.06; margin:0 0 10px;
+  background:linear-gradient(92deg,var(--brand),var(--brand2));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero-lead{color:var(--muted); font-size:clamp(16px,2vw,19px); margin:0 0 16px}
+.hero-actions .btn{margin-top:8px}
+
+/* Mock de dispositivo */
+.device{
+  background:var(--surf); border:1px solid var(--border);
+  border-radius:var(--radius-lg); padding:18px; box-shadow:var(--shadow);
+}
+.device .screen{
+  aspect-ratio:16/9; border-radius:16px; overflow:hidden; display:grid; place-items:center;
+  background:linear-gradient(180deg,
+    color-mix(in srgb,var(--brand) 12%,#fff),
+    color-mix(in srgb,var(--brand2) 10%,#fff));
+}
+.device .screen img{width:100%; height:auto}
+.device .caption{margin-top:10px; color:var(--muted); font-size:.95rem; text-align:center}
+
+/* =================== [6] PROCESO (4 pasos) =================== */
+.proceso .title{text-align:center}
+.proceso .intro{color:var(--muted); max-width:820px; margin:4px auto 12px; text-align:center}
+
+.steps{
+  display:grid; gap:16px; margin-top:14px;
+  grid-template-columns:repeat(4,1fr);
+}
+@media (max-width:1100px){ .steps{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:640px){ .steps{grid-template-columns:1fr} }
+
+.step{
+  background:var(--surf); border:1px solid var(--border);
+  border-radius:16px; padding:16px; box-shadow:var(--shadow);
+  transition:transform .16s var(--ease), border-color .16s var(--ease), background .16s var(--ease);
+}
+.step:hover{
+  transform:translateY(-4px);
+  border-color:color-mix(in srgb,var(--brand) 45%, transparent);
+  background:#fff;
+}
+.step .num{
+  width:34px; height:34px; border-radius:10px; font-weight:800;
+  display:grid; place-items:center; margin-bottom:8px; color:#081022;
+  background:linear-gradient(92deg,var(--brand),var(--brand2));
+  box-shadow:0 6px 16px rgba(1,216,255,.20);
+}
+.step h3{font-size:var(--h3); margin:2px 0 6px}
+.step p{color:var(--muted)}
+
+/* =========== [7] BAJO EL CAPÓ (stack + mini código) =========== */
+.stack{
+  margin-top:18px; display:grid; gap:16px;
+  grid-template-columns:1.2fr .8fr;
+}
+@media (max-width:980px){ .stack{grid-template-columns:1fr} }
+
+.panel{
+  background:var(--surf); border:1px solid var(--border);
+  border-radius:16px; padding:18px; box-shadow:var(--shadow);
+}
+.panel h3{font-size:var(--h3); margin-bottom:8px}
+.list{display:grid; gap:10px}
+.item{
+  display:flex; gap:10px; align-items:flex-start;
+  padding:10px; border:1px dashed var(--border);
+  border-radius:12px; background:#fbfdff;
+}
+.item strong{display:block}
+
+/* --- Código: envolver líneas y evitar desbordes en móvil --- */
+pre,code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+  font-size:.95rem;
+}
+pre{
+  background:#0b1020; color:#eaf1ff;
+  border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:14px;
+  overflow:auto; -webkit-overflow-scrolling:touch;
+  white-space:pre-wrap; word-break:break-word;
+  box-shadow:0 10px 30px rgba(0,0,0,.24);
+}
+
+/* =================== [8] FAQ (details/summary) =================== */
+.faq{margin-top:22px; display:grid; gap:12px}
+.q{
+  background:var(--surf); border:1px solid var(--border);
+  border-radius:14px; padding:14px 16px; box-shadow:var(--shadow);
+}
+.q summary{cursor:pointer; list-style:none; font-weight:800}
+.q summary::-webkit-details-marker{display:none}
+.q[open]{border-color:color-mix(in srgb,var(--brand) 35%, transparent)}
+.q p{color:var(--muted); margin-top:8px}
+
+/* =================== [9] CTA FINAL =================== */
+.cta{text-align:center; margin-top:28px}
+.cta .btn{min-width:220px}
+
+/* =================== [10] FOOTER =================== */
+footer{
+  margin-top:32px; border-top:1px solid var(--border);
+  background:linear-gradient(180deg,rgba(255,255,255,0),rgba(10,40,70,.03));
+  color:color-mix(in srgb,var(--ink) 70%, transparent);
+  text-align:center; padding:20px 0;
+}
+
+/* =================== [11] ACCESIBILIDAD EXTRA =================== */
+@media (prefers-contrast: more){
+  .nav a{border-color:rgba(255,255,255,.45)}
+  .btn{box-shadow:none}
+}
+
+/* =================== [12] REDES SOCIALES =================== */
+.wrapper{
+  display:inline-flex; list-style:none; width:100%;
+  padding-top:16px; justify-content:center; gap:12px;
+}
+.wrapper .icon{
+  position:relative; background:var(--surf); border:1px solid var(--border);
+  border-radius:50%; width:48px; height:48px;
+  display:flex; justify-content:center; align-items:center;
+  box-shadow:0 6px 14px rgba(10,40,70,.10); cursor:pointer;
+  transition:transform .16s var(--ease), box-shadow .16s var(--ease), background .16s;
+}
+.wrapper .icon:hover{transform:translateY(-3px); box-shadow:0 10px 20px rgba(10,40,70,.14)}
+.wrapper .tooltip{
+  position:absolute; top:-38px; font-size:.85rem; background:#0c1a2a; color:#fff;
+  padding:6px 8px; border-radius:8px; opacity:0; pointer-events:none;
+  transition:opacity .2s var(--ease), top .2s var(--ease);
+}
+.wrapper .icon:hover .tooltip{top:-44px; opacity:1}
+.wrapper .tooltip::before{
+  content:""; position:absolute; left:50%; transform:translateX(-50%) rotate(45deg);
+  width:10px; height:10px; background:#0c1a2a; bottom:-4px; border-radius:2px;
+}
+
+/* =================== [13] TWEAKS RESPONSIVOS FINALES =================== */
+/* Grid y paddings más cómodos en móviles chicos */
+@media (max-width:1100px){ .steps{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:640px){
+  .steps{grid-template-columns:1fr; gap:12px}
+  .step{padding:14px; border-radius:14px}
+  .step .num{width:30px; height:30px; border-radius:8px}
+  .faq{gap:10px}
+  .q{width:100%; padding:12px 14px}
+  .cta{margin-top:22px}
+  .cta .btn{width:100%; max-width:320px}
+}
+/* Contenedor un pelín más ancho en móviles muy pequeños */
+@media (max-width:400px){ .container{width:min(96%,1120px)} }

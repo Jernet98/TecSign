@@ -1,0 +1,12 @@
+{
+  "version": "temporal-confirmation-v2",
+  "signDetector": {"width":640,"poseComplexity":0,"handComplexity":1,"poseEvery":3,"poseMaxAgeMs":200,"maxFPS":30,"fileFPS":30},
+  "signTracking": {"graceMs":200},
+  "signActivity": {"motionStart":0.06,"motionContinue":0.035,"excursionStart":0.008,"excursionContinue":0.004,"motionSmoothingMs":100,"historyMs":140,"restWristY":1.35,"maxFrameGapMs":450,"acquisitionQuietMs":250},
+  "specialists": {"gruThreshold":0.90,"gruRawThreshold":0.70,"gruMargin":0.25,"legacyThreshold":0.93,"legacyMargin":0.25,"legacyMinWindowMs":1400},
+  "activity": {"motionStart": 0.12, "motionContinue": 0.06, "motionSmoothingMs": 120, "restWristY": 1.35, "maxFrameGapMs": 450},
+  "temporal": {"onsetMs": 300, "releaseMs": 800, "preRollMs": 200, "minFrames": 8, "minWindowMs": 600, "maxWindowMs": 3500, "inferenceIntervalMs": 80},
+  "confirmation": {"threshold": 0.90, "rawThreshold": 0.70, "margin": 0.25, "emaAlpha": 0.5, "stable": 3, "stableMs": 200, "voteWindow": 5, "voteRatio": 0.80, "blank": "NO_SIGN", "requireSupport": true},
+  "alphabet": {"onsetMs": 100, "minFrames": 6, "minWindowMs": 300, "inferenceIntervalMs": 100, "releaseMs": 350, "threshold": 0.80, "rawThreshold": 0.80, "margin": 0.20, "stable": 5, "stableMs": 400, "requireSupport": false, "allowLabelChange": true},
+  "fallback": {"threshold": 0.97, "rawThreshold": 0.97, "margin": 0.35, "stable": 5, "stableMs": 900, "minFrames": 50, "minWindowMs": 1600, "maxWindowMs": 6500, "blank": "ninguna", "requireSupport": false}
+}

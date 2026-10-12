@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Como Funciona - TecSign</title>
+  <link rel="stylesheet" href="./css/comofunciona.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="./logo_tecsign.png" />
+</head>
+
+<body data-page="comofunciona">
+  <div class="contenido-principal">
+
+    <header>
+      <div class="menu-toggle" id="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    
+      <nav>
+        <a href="./index.html"><img src="./logobannerhtml22.png" alt="Mi logo" class="logo"></a>
+        <div class="nav" id="nav">
+          <ul>      
+            <li><a href="./index.html">Inicio</a></li>
+            <li><a href="./index.html#Acerca">Acerca</a></li>
+            <li><a href="./comofunciona.html">Cómo Funciona</a></li>
+            <li><a href="./index.html#contacto">Contacto</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+  <main>
+
+
+
+<!-- HERO -->
+<section class="section hero-cf">
+  <div class="container wrap">
+    <div>
+      <h1 class="hero-title">¿Cómo funciona TecSign?</h1>
+      <p class="hero-lead">
+        Capturamos tus gestos con la cámara, detectamos puntos clave de la mano con MediaPipe,
+        procesamos con OpenCV y comparamos con nuestro dataset para traducir <strong>en tiempo real</strong>.
+      </p>
+      <div class="hero-actions">
+        <a href="./deteccion.html" class="btn">Probar traductor</a>
+      </div>
+    </div>
+
+    <!-- Mock del dispositivo -->
+    <figure class="device">
+      <div class="screen">
+        <img src="./image/mediapipe.png" alt="Detección de manos con MediaPipe">
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- PASOS DEL PROCESO -->
+<section class="section proceso">
+  <div class="container center">
+    <h2 class="title">Del gesto al texto: paso a paso</h2>
+    <p class="intro">
+      Así transformamos tus señas en letras visibles en pantalla con fluidez y precisión.
+    </p>
+
+    <div class="steps">
+      <article class="step">
+        <div class="num">1</div>
+        <h3>Captura</h3>
+        <p>La cámara obtiene el video en tiempo real de tus manos.</p>
+      </article>
+      <article class="step">
+        <div class="num">2</div>
+        <h3>Detección</h3>
+        <p><strong>MediaPipe</strong> detecta ~21 puntos clave por mano (landmarks) y su movimiento.</p>
+      </article>
+      <article class="step">
+        <div class="num">3</div>
+        <h3>Procesamiento</h3>
+        <p><strong>OpenCV</strong> limpia y normaliza la señal visual para interpretar mejor la pose.</p>
+      </article>
+      <article class="step">
+        <div class="num">4</div>
+        <h3>Reconocimiento</h3>
+        <p>Comparamos con nuestro dataset y mostramos la letra reconocida al instante.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- BAJO EL CAPÓ -->
+<section class="section">
+  <div class="container stack">
+    <div class="panel">
+      <h3>Bajo el capó</h3>
+      <div class="list">
+        <div class="item">
+          <strong>MediaPipe Hands</strong>
+          <span>Landmarks estables para cada mano, robustos incluso con iluminación variable.</span>
+        </div>
+        <div class="item">
+          <strong>OpenCV</strong>
+          <span>Preprocesamiento de imagen, filtros y normalización de entradas.</span>
+        </div>
+        <div class="item">
+          <strong>Dataset propio</strong>
+          <span>Imágenes/videos etiquetados de LSM para mapear pose → letra.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Mini-pipeline</h3>
+      <pre><code>// Esquema conceptual (pseudocódigo)
+frame = camera.read()
+landmarks = mediapipe.detect_hands(frame)
+features  = opencv.preprocess(landmarks)
+letra     = modelo.predict(features)   // o comparación directa con dataset
+ui.render(letra)
+</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="container faq">
+    <details class="q">
+      <summary>¿Necesito una cámara especial?</summary>
+      <p>No, con la cámara web estándar funciona sin problema. En móvil también es posible usar tanto la cámara frontal como la trasera. El sistema está pensado para adaptarse a dispositivos comunes, sin necesidad de equipos especializados.</p>
+    </details>
+    <details class="q">
+      <summary>¿Soporta solo alfabeto?</summary>
+      <p>Pedimos disculpas: de momento nuestro proyecto se encuentra en una fase pre-beta, y por ahora nuestra base de datos (dataset) trabaja únicamente con el abecedario. Esto se debe a que estamos mejorando el modelo de detección y predicción con inteligencia artificial para garantizar precisión y estabilidad. Una vez logrado ese nivel, daremos el salto hacia la detección de gestos completos y señas básicas de la Lengua de Señas.</p>
+    </details>
+    <details class="q">
+      <summary>¿Mis datos se guardan?</summary>
+      <p>Todo el procesamiento se realiza de manera local, respetando la privacidad del usuario en todo momento. Tanto el software de PC como la app móvil funcionan completamente en el dispositivo del usuario. Únicamente la versión demostrativa, disponible en línea, procesa temporalmente los datos, siempre de forma anónima y opcional.</p>
+    </details>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section cta">
+  <div class="container">
+    <h3 class="center">¿Te gustaría ayudarnos a mejorar TecSign?</h3>
+    <p class="lead center">Buscamos colaboradores, testers y personas que usen LSM.</p>
+    <a href="./index.html#contacto" class="btn">Contactar al equipo</a>
+  </div>
+</section>
+
+  </main>
+
+  <footer>
+    <p>Todos los derechos reservados ©TecSign.</p>
+
+
+<!-- From Uiverse.io by escannord --> 
+      <div class="redes-sociales">
+      <ul class="wrapper">
+        <a href="https://www.facebook.com/profile.php?id=61576667424867" target="_blank">
+          <li class="icon facebook">
+            <span class="tooltip">Facebook</span>
+            <svg viewBox="0 0 320 512" height="1.2em" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path>
+            </svg>
+          </li>
+        </a>
+
+        <a href="https://www.youtube.com/@TecSing-g2r" target="_blank">
+          <li class="icon youtube">
+            <span class="tooltip">YouTube</span>
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.8em" viewBox="0 0 576 512" fill="currentColor">
+              <path d="M549.7 124.1c-6.3-23.8-24.9-42.4-48.6-48.7C456.5 64 288 64 288 64s-168.5 0-213.1 11.4c-23.7 6.3-42.3 24.9-48.6 48.7C16 168.6 16 256 16 256s0 87.4 10.3 131.9c6.3 23.8 24.9 42.4 48.6 48.7C119.5 448 288 448 288 448s168.5 0 213.1-11.4c23.7-6.3 42.3-24.9 48.6-48.7C560 343.4 560 256 560 256s0-87.4-10.3-131.9zM232 334V178l142 78-142 78z"/>
+            </svg>
+          </li>
+        </a>
+
+        <a href="https://whatsapp.com/channel/0029Vb5Jsr3Id7nKVRnG9m41" target="_blank">
+          <li class="icon whatsapp">
+            <span class="tooltip">WhatsApp</span>
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.8em" viewBox="0 0 448 512" fill="currentColor">
+              <path d="M380.9 97.1C339-6.3 205.1-32 110.4 37.7 37.3 92.8 1.6 186.5 24.2 273.5L1.2 375.8c-4.6 20.6 14.2 38.8 34.4 34.4l102.3-23c85.9 43.4 188.6 20.2 243.7-53 69.7-94.7 44-228.6-34.7-289.1zM222.5 366c-35.3-1.4-70.1-12.2-99.3-30.9l-7.1-4.5-60.8 13.7 13-59.2-4.6-7.1c-18.3-28.5-28.5-61.2-28.5-94.7C35.2 121.6 124.1 33.1 229.2 68.5c59.2 19.5 102.4 75.2 104.4 137.2 1.8 59.4-30.5 114.2-83 137.4-10.9 4.9-22.3 8.1-34.2 9.5l-.1.1zm85.6-129.2c-4.6-2.3-27.3-13.5-31.6-15-4.2-1.5-7.3-2.3-10.4 2.3s-11.9 15-14.6 18.1c-2.7 3.1-5.4 3.5-10 1.2-27.2-13.6-44.9-24.4-63.2-55.2-4.8-8.2 4.8-7.6 13.8-25.2 1.5-3.1.8-5.8-.4-8.1s-10.4-25.2-14.3-34.6c-3.8-9.4-7.7-8.1-10.4-8.3-2.7-.1-5.9-.2-9.1-.2s-8.3 1.2-12.7 5.8c-4.4 4.6-16.8 16.4-16.8 40.1s17.2 46.6 19.6 49.8c2.4 3.1 33.8 51.8 82.2 72.6 11.5 5 20.5 7.9 27.5 10.1 11.6 3.7 22.1 3.2 30.5 1.9 9.3-1.4 27.9-11.4 31.8-22.5 3.9-11.1 3.9-20.6 2.7-22.5-1.2-1.9-4.2-3.1-8.8-5.4z"/>
+            </svg>
+          </li>
+        </a>
+      </ul>
+      </div>
+
+    
+  </footer>
+
+  <script src="./boton.js"></script>
+    <!-- Chatbase integrado desactivado en copia de revisión -->
+
+
+</body>
+
+</html>

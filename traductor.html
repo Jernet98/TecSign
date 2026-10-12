@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TecSign | Chat de Señas LSM</title>
+    <link rel="stylesheet" href="./css/chat-lsm.css" />
+</head>
+<body>
+
+<!-- CHAT DE SEÑAS LSM -->
+<section class="seccion-chat-lsm">
+  <div class="chat-lsm-titulo">
+    <h2>🤟 Chat de Señas LSM</h2>
+    <p>Escribe una palabra y el avatar te mostrará la seña ✨</p>
+  </div>
+
+  <div class="app">
+    <div class="left-panel">
+      <div class="panel-tag">Avatar LSM</div>
+      <div class="avatar-wrap" id="avatar-wrap">
+      <img src="./image/Gemini_Generated_Image_gfgd89gfgd89gfgd.png" alt="Avatar LSM" id="avatar-img">
+</div>
+      <div class="sign-area" id="sign-area">
+        <div class="sign-status">Esperando tu mensaje...</div>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="chat-header">
+        <span style="font-size:20px;">💬</span>
+        <div>
+          <div class="chat-header-title">Chat de Señas</div>
+          <div class="chat-header-sub">Lengua de Señas Mexicana</div>
+        </div>
+      </div>
+
+      <div class="messages" id="messages">
+        <div class="empty-state">
+          <div class="big">🤟</div>
+          <div style="font-weight:700;color:#5b21b6;">¡Hola! Soy tu intérprete LSM</div>
+          <div>Escribe cualquier palabra y te mostraré las señas letra por letra</div>
+        </div>
+      </div>
+
+      <div class="chips">
+        <button class="chip" onclick="sendWord('Hola')">Hola</button>
+        <button class="chip" onclick="sendWord('Gracias')">Gracias</button>
+        <button class="chip" onclick="sendWord('Bien')">Bien</button>
+        <button class="chip" onclick="sendWord('Amor')">Amor</button>
+        <button class="chip" onclick="sendWord('Buenos dias')">Buenos días</button>
+        <button class="chip" onclick="sendWord('Por favor')">Por favor</button>
+      </div>
+
+      <div class="input-row">
+        <input type="text" id="chat-input" placeholder="Escribe una palabra o frase..."
+          maxlength="40" onkeydown="if(event.key==='Enter')sendFromInput()" />
+        <button class="send-btn" onclick="sendFromInput()">
+          <svg viewBox="0 0 24 24"><path d="M2 21L23 12 2 3v7l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <script src="./js/chat-lsm.js"></script>
+</body>
+</html>

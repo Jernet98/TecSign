@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traductor de Lenguaje de Señas</title>
+  <link rel="stylesheet" href="./css/contacto.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+    .contact-container {
+      max-width: 600px;
+      margin: 100px auto 40px;
+      background-color: #1a51b6;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #0964af99;
+    }
+
+    .contact-container h2 {
+      color: #ffffff;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .contact-container p {
+      color: #ffffff;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .contact-container label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    .contact-container input,
+    .contact-container textarea {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      background-color: #f6edfb;
+      color: #000000;
+    }
+
+    .contact-container button {
+      background-color: #e50914;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .contact-container button:hover {
+      background-color: #b00610;
+    }
+
+    .mensaje {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .mensaje.exito {
+      color: #00ff88;
+    }
+
+    .mensaje.error {
+      color: #ff4d4d;
+    }
+  </style>
+  <link rel="shortcut icon" href="./logo_tecsign.png" />
+</head>
+
+<body>
+  <div class="contenido-principal">
+    <header>
+
+      <div class="menu-toggle" id="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <nav>
+
+        <a href="./index.html"><img src="./logobannerhtml22.png" alt="Mi logo" class="logo"></a>
+        <div class="nav" id="nav">
+          <ul>
+            <li><a href="./index.html">Inicio</a></li>
+            <li><a href="#Acerca">Acerca</a></li>
+            <li><a href="./comofunciona.html">Cómo Funciona</a></li>
+            <li><a href="./contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+      </nav>
+
+    </header>
+
+
+
+
+  <main>
+    <div class="contact-container">
+       <h2>Contacto</h2>
+      <p>Esta copia de revisión no envía datos. Para contactar al equipo utiliza el sitio web oficial.</p>
+      <form id="formulario-contacto" action="#">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" id="nombre" required />
+
+        <label for="email">Correo electrónico:</label>
+        <input type="email" name="email" id="email" required />
+
+        <label for="mensaje">Mensaje:</label>
+        <textarea name="mensaje" id="mensaje" rows="5" required></textarea>
+
+        <button type="button" disabled aria-disabled="true">Formulario desactivado en esta copia</button>
+        <div id="mensaje-envio" class="mensaje"></div>
+      </form>
+    </div>
+  </main>
+
+  <script src="./boton.js"></script>
+  <!-- Integración Formspree desactivada en esta copia de revisión. -->
+    <!-- Chatbase integrado desactivado en copia de revisión -->
+
+
+
+
+
+
+  </div>
+
+  <footer>
+    <p>Todos los derechos reservados ©TecSign.</p>
+
+
+<!-- From Uiverse.io by escannord -->
+      <div class="redes-sociales">
+      <ul class="wrapper">
+        <a href="https://www.facebook.com/profile.php?id=61576667424867" target="_blank">
+          <li class="icon facebook">
+            <span class="tooltip">Facebook</span>
+            <svg viewBox="0 0 320 512" height="1.2em" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path>
+            </svg>
+          </li>
+        </a>
+
+        <a href="https://www.youtube.com/@TecSing-g2r" target="_blank">
+          <li class="icon youtube">
+            <span class="tooltip">YouTube</span>
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.8em" viewBox="0 0 576 512" fill="currentColor">
+              <path d="M549.7 124.1c-6.3-23.8-24.9-42.4-48.6-48.7C456.5 64 288 64 288 64s-168.5 0-213.1 11.4c-23.7 6.3-42.3 24.9-48.6 48.7C16 168.6 16 256 16 256s0 87.4 10.3 131.9c6.3 23.8 24.9 42.4 48.6 48.7C119.5 448 288 448 288 448s168.5 0 213.1-11.4c23.7-6.3 42.3-24.9 48.6-48.7C560 343.4 560 256 560 256s0-87.4-10.3-131.9zM232 334V178l142 78-142 78z"/>
+            </svg>
+          </li>
+        </a>
+
+        <a href="https://whatsapp.com/channel/0029Vb5Jsr3Id7nKVRnG9m41" target="_blank">
+          <li class="icon whatsapp">
+            <span class="tooltip">WhatsApp</span>
+            <svg xmlns="http://www.w3.org/2000/svg" height="1.8em" viewBox="0 0 448 512" fill="currentColor">
+              <path d="M380.9 97.1C339-6.3 205.1-32 110.4 37.7 37.3 92.8 1.6 186.5 24.2 273.5L1.2 375.8c-4.6 20.6 14.2 38.8 34.4 34.4l102.3-23c85.9 43.4 188.6 20.2 243.7-53 69.7-94.7 44-228.6-34.7-289.1zM222.5 366c-35.3-1.4-70.1-12.2-99.3-30.9l-7.1-4.5-60.8 13.7 13-59.2-4.6-7.1c-18.3-28.5-28.5-61.2-28.5-94.7C35.2 121.6 124.1 33.1 229.2 68.5c59.2 19.5 102.4 75.2 104.4 137.2 1.8 59.4-30.5 114.2-83 137.4-10.9 4.9-22.3 8.1-34.2 9.5l-.1.1zm85.6-129.2c-4.6-2.3-27.3-13.5-31.6-15-4.2-1.5-7.3-2.3-10.4 2.3s-11.9 15-14.6 18.1c-2.7 3.1-5.4 3.5-10 1.2-27.2-13.6-44.9-24.4-63.2-55.2-4.8-8.2 4.8-7.6 13.8-25.2 1.5-3.1.8-5.8-.4-8.1s-10.4-25.2-14.3-34.6c-3.8-9.4-7.7-8.1-10.4-8.3-2.7-.1-5.9-.2-9.1-.2s-8.3 1.2-12.7 5.8c-4.4 4.6-16.8 16.4-16.8 40.1s17.2 46.6 19.6 49.8c2.4 3.1 33.8 51.8 82.2 72.6 11.5 5 20.5 7.9 27.5 10.1 11.6 3.7 22.1 3.2 30.5 1.9 9.3-1.4 27.9-11.4 31.8-22.5 3.9-11.1 3.9-20.6 2.7-22.5-1.2-1.9-4.2-3.1-8.8-5.4z"/>
+            </svg>
+          </li>
+        </a>
+      </ul>
+      </div>
+
+  </footer>
+
+
+</body>
+
+</html>

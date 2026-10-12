@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TecSign · Ejemplos de interpretación</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;padding:32px 16px;font:16px/1.5 system-ui,sans-serif;color:#183047;background:#f2f6fa}
+    main{max-width:800px;margin:auto}h1{font-size:clamp(1.5rem,4vw,2rem)}a{color:#145b94}
+    .card{padding:24px;background:white;border:1px solid #d6e0e9;border-radius:16px;margin:20px 0}
+    #examples{display:flex;flex-wrap:wrap;gap:8px}button{font:inherit;padding:10px 14px;background:#eef4fa;color:#183047;border:1px solid #b5c6d5;border-radius:8px;cursor:pointer;overflow-wrap:anywhere;max-width:100%}
+    button:focus-visible{outline:3px solid #3486cc;outline-offset:2px}button[aria-pressed=true]{background:#145b94;color:white}
+    #translation{font-size:1.5rem;font-weight:600}#glosses{color:#536b80}p{overflow-wrap:anywhere}details{font-size:14px}
+    @media(max-width:480px){body{padding:20px 12px}.card{padding:16px}}
+  </style>
+</head>
+<body><main>
+  <a href="deteccion.html">← Volver al detector</a>
+  <h1>Glosas → español</h1>
+  <p>Ejemplos de texto del motor local. Esta página no analiza la cámara. El detector dispone de un especialista limitado para NECESITAR cuando hay evidencia suficiente.</p>
+  <section class="card"><div id="examples" aria-label="Ejemplos de glosas"></div></section>
+  <section class="card" aria-live="polite">
+    <p>Glosas: <span id="glosses"></span></p>
+    <p id="translation"></p>
+    <button id="speak" type="button" aria-label="Leer interpretación">🔊 Leer</button>
+    <p id="voice-status"></p>
+    <details><summary>Reglas aplicadas</summary><p id="assumptions"></p></details>
+  </section>
+</main><script type="module">
+  import {interpretConfirmedGlosses} from './js/ai/gloss-language-engine.js';
+  import {DEMO_EXAMPLES} from './js/ai/gloss-language-examples.js';
+  import {createSpanishSpeech} from './js/spanish-speech.js';
+  const speech=createSpanishSpeech();let interpretation='';
+  const examples=document.getElementById('examples');
+  function render(row){
+    const result=interpretConfirmedGlosses(row.glosses);interpretation=result.text || '';
+    document.getElementById('glosses').textContent=row.glosses.join(' · ');
+    document.getElementById('translation').textContent=interpretation;
+    document.getElementById('assumptions').textContent=result.assumptions.join(' ');
+    for(const button of examples.children)button.setAttribute('aria-pressed',String(button.textContent===row.glosses.join(' · ')));
+    document.body.dataset.ready='true';
+  }
+  for(const row of DEMO_EXAMPLES){
+    const button=document.createElement('button');button.type='button';button.textContent=row.glosses.join(' · ');
+    button.addEventListener('click',()=>render(row));examples.append(button);
+  }
+  document.getElementById('speak').addEventListener('click',()=>{
+    if(!('speechSynthesis' in window)){document.getElementById('voice-status').textContent='La voz no está disponible en este navegador.';return;}
+    speech.speak(interpretation);
+  });render(DEMO_EXAMPLES[0]);
+</script></body></html>
